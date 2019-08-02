@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	cbConnStr    = "couchbase://localhost"
+	cbConnStr    = "couchbase://10.112.193.103"
 	cbDataBucket = "travel-sample"
 	cbUserBucket = "travel-users"
 	cbUsername   = "Administrator"
@@ -176,8 +176,13 @@ type jsonAirportSearchResp struct {
 	Context jsonContext   `json:"context"`
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func AirportSearch(w http.ResponseWriter, req *http.Request) {
 	var respData jsonAirportSearchResp
+	enableCors(&w)
 
 	searchKey := req.FormValue("search")
 
@@ -215,6 +220,8 @@ type jsonFlightSearchResp struct {
 
 func FlightSearch(w http.ResponseWriter, req *http.Request) {
 	var respData jsonFlightSearchResp
+
+	enableCors(&w)
 
 	reqVars := mux.Vars(req)
 	leaveDate, err := time.Parse("01/02/2006", req.FormValue("leave"))
