@@ -181,7 +181,7 @@ func AirportSearch(w http.ResponseWriter, req *http.Request) {
 	} else if len(searchKey) == 4 && searchKey == strings.ToUpper(searchKey) {
 		queryStr = fmt.Sprintf("SELECT airportname FROM `travel-sample` WHERE icao ='%s'", searchKey)
 	} else {
-		queryStr = fmt.Sprintf("SELECT airportname FROM `travel-sample` WHERE airportname like '%s%%'", searchKey)
+		queryStr = fmt.Sprintf("SELECT airportname FROM `travel-sample` WHERE LOWER(airportname) LIKE '%s%'", strings.ToLower(searchKey))
 	}
 
 	respData.Context.Add(queryStr)
